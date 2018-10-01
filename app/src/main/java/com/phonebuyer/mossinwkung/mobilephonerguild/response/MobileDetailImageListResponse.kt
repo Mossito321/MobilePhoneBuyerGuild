@@ -2,7 +2,7 @@ package com.phonebuyer.mossinwkung.mobilephonerguild.response
 
 import com.google.gson.annotations.SerializedName
 
-open class MobileDetailImageList {
+open class MobileDetailImageListResponse {
     @SerializedName("url")
     val itemImageUrl: String? = null
 

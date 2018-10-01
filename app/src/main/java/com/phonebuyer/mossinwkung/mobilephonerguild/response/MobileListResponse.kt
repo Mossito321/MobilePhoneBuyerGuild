@@ -23,5 +23,7 @@ open class MobileListResponse {
     val itemImageUrl: String? = null
 
     @SerializedName("rating")
-    val itemRation: Double? = null
+    val itemRating: Double? = null
+
+    var favorite: Boolean? = false
 }

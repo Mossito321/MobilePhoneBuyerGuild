@@ -1,6 +1,6 @@
 package com.phonebuyer.mossinwkung.mobilephonerguild.api
 
-import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileDetailImageList
+import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileDetailImageListResponse
 import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileListResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -10,10 +10,10 @@ interface APIInterface {
 
     @GET("/api/mobiles/")
     fun getMobileItem(
-    ): Observable<List<MobileListResponse>>
+    ): Observable<ArrayList<MobileListResponse>>
 
     @GET("/api/mobiles/{mobile_id}/images/")
     fun getMobileItemImage(
             @Path("mobile_id") mobileId: String
-    ): Observable<List<MobileDetailImageList>>
+    ): Observable<ArrayList<MobileDetailImageListResponse>>
 }

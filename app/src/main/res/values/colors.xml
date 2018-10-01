@@ -6,4 +6,6 @@
 
     <color name="tabOnSelect">#FFFFFF</color>
     <color name="tabOnNotSelect">#D5D8DE</color>
+
+    <color name="recyclerBackground">#E3E5E8</color>
 </resources>
