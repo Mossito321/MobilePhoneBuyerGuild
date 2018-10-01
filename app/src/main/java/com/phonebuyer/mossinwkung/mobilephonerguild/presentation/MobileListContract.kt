@@ -7,14 +7,16 @@ interface MobileListContract {
         fun renderList(tab: MobileListTab,item: ArrayList<MobileListResponse>)
         fun showLoading()
         fun hideLoading()
+        fun showNotItem()
+        fun openSeeDetail()
     }
 
     interface Presenter {
         fun getMobileList()
         fun setDefaultTab(tab: MobileListTab)
+        fun getMobileImageList(mobileId: String)
         fun onSelectItem()
-        fun onSelectTabMoblieList()
-        fun onSelectTabFavoriteList(mobileId: String)
-        fun cleanup()
+        fun onSelectTabMobileList()
+        fun onSelectTabFavoriteList()
     }
 }

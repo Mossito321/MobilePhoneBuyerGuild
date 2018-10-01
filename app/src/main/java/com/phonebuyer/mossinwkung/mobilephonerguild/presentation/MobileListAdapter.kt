@@ -37,7 +37,7 @@ class MobileListAdapter(private val context: Context, private val items: List<Mo
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MobileListSectionViewHolder) {
-            val item = items[position] as MobileListResponse
+            val item = items[position]
 
             holder.itemMobileName?.text = item?.itemName ?: ""
             holder.itemMobileDes?.text = item?.description ?: ""
@@ -46,12 +46,32 @@ class MobileListAdapter(private val context: Context, private val items: List<Mo
             Glide.with(context).load(item.itemImageUrl)
                     .into(holder.itemIconImageView)
 
+            if (item.favorite == true) {
+                Glide.with(context).load((R.drawable.please_heart)).into(holder.itemMobileHeart)
+            } else {
+                Glide.with(context).load((R.drawable.heart)).into(holder.itemMobileHeart)
+            }
+
+            holder.itemMobileHeart?.setOnClickListener {
+                if (item.favorite == true) {
+                    item.favorite = false
+                    Glide.with(context).load((R.drawable.heart)).into(holder.itemMobileHeart)
+                } else {
+                    item.favorite = true
+                    Glide.with(context).load((R.drawable.please_heart)).into(holder.itemMobileHeart)
+                }
+            }
+
             holder.itemView.setOnClickListener {
-                //deduct my point row and tab row
                 Toast.makeText(context, "Press item law kab $position", Toast.LENGTH_LONG).show()
             }
-        } else {
-
+        } else if (holder is MobileListFavoriteSectionViewHolder) {
+            val item = items[position]
+            Glide.with(context).load(item.itemImageUrl)
+                    .into(holder.itemIconImageView)
+            holder.itemMobileName?.text = item?.itemName ?: ""
+            holder.itemMobilePrice?.text = item?.itemPrice ?: ""
+            holder.itemMobileRating?.text = "Rating:${item?.itemRating}"
         }
     }
 
@@ -65,6 +85,7 @@ class MobileListAdapter(private val context: Context, private val items: List<Mo
         var itemMobileDes: TextView? = null
         var itemMobilePrice: TextView? = null
         var itemMobileRating: TextView? = null
+        var itemMobileHeart: ImageView? = null
 
         init {
             itemIconImageView = view.findViewById(R.id.imageMobile) as? ImageView
@@ -72,6 +93,7 @@ class MobileListAdapter(private val context: Context, private val items: List<Mo
             itemMobileDes = view.findViewById(R.id.mobileDetail) as? TextView
             itemMobilePrice = view.findViewById(R.id.mobilePrice) as? TextView
             itemMobileRating = view.findViewById(R.id.moblieRating) as? TextView
+            itemMobileHeart = view.findViewById(R.id.imageHeart) as? ImageView
         }
     }
 

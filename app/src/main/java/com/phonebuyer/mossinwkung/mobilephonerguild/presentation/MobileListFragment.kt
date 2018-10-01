@@ -1,5 +1,6 @@
 package com.phonebuyer.mossinwkung.mobilephonerguild.presentation
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -13,6 +14,7 @@ import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileListResponse
 import kotlinx.android.synthetic.main.fragment_mobile_list.*
 
 class MobileListFragment : Fragment(), MobileListContract.View {
+
     private var items = mutableListOf<MobileListResponse>()
     private var selectTab: MobileListTab = MobileListTab.LIST
     private var adapter: MobileListAdapter? = null
@@ -50,11 +52,26 @@ class MobileListFragment : Fragment(), MobileListContract.View {
         mobileListRecyclerView?.adapter = adapter
         mobileListRecyclerView?.setHasFixedSize(true)
         mobileListRecyclerView?.addItemDecoration(dividerItemDecoration)
+
+        mobileListButton.setOnClickListener {
+            presenter?.onSelectTabMobileList()
+            favoriteButton.setTextColor(Color.GRAY)
+            mobileListButton.setTextColor(Color.WHITE)
+        }
+
+        favoriteButton.setOnClickListener {
+            presenter?.onSelectTabFavoriteList()
+            mobileListButton.setTextColor(Color.GRAY)
+            favoriteButton.setTextColor(Color.WHITE)
+        }
     }
 
     override fun renderList(tab: MobileListTab, item: ArrayList<MobileListResponse>) {
+        mobileListRecyclerView.visibility = View.VISIBLE
+        errorTextView.visibility = View.GONE
         this.items.clear()
         this.items.addAll(item)
+        mobileListRecyclerView?.adapter = adapter
         adapter?.setSelectedTab(tab)
         adapter?.notifyDataSetChanged()
     }
@@ -74,5 +91,14 @@ class MobileListFragment : Fragment(), MobileListContract.View {
 
     override fun hideLoading() {
         loader.visibility = View.INVISIBLE
+    }
+
+    override fun showNotItem() {
+        errorTextView.visibility = View.VISIBLE
+        mobileListRecyclerView.visibility = View.GONE
+    }
+
+    override fun openSeeDetail() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

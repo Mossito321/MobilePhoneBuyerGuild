@@ -23,6 +23,7 @@ class MobileListPresenter(
                 .doFinally { view?.hideLoading() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    listMobileItem = it
                     view?.renderList(currentTab, it)
                 }, {
 
@@ -38,22 +39,35 @@ class MobileListPresenter(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onSelectTabMoblieList() {
+    override fun onSelectTabMobileList() {
         currentTab = MobileListTab.LIST
         render()
     }
 
-    override fun onSelectTabFavoriteList(mobileId: String) {
+    override fun onSelectTabFavoriteList() {
         currentTab = MobileListTab.FAV
         render()
     }
 
-    override fun cleanup() {
-        disposeBag.clear()
+    override fun getMobileImageList(mobileId: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun render() {
-
+        var list = ArrayList<MobileListResponse>()
+        if (currentTab == MobileListTab.LIST) {
+            listMobileItem?.let { view?.renderList(currentTab, it) }
+        } else if (currentTab == MobileListTab.FAV) {
+            listMobileItem?.forEach {
+                if (it.favorite == true)
+                    list.add(it)
+            }
+            if (list?.size == 0) {
+                view?.showNotItem()
+            } else {
+                list?.let { view?.renderList(currentTab, it) }
+            }
+        }
     }
 
 }
