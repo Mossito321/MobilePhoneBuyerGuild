@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.view.Window
-import android.widget.Toast
 import com.phonebuyer.mossinwkung.mobilephonerguild.presentation.MobileListFragment
 import kotlinx.android.synthetic.main.custome_action_bar_layout.*
 
@@ -27,6 +26,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setCustomView(R.layout.custome_action_bar_layout)
 
         action_bar_back.visibility = View.GONE
+        action_bar_back.setOnClickListener {
+            onBackPressed()
+        }
         action_bar_forward.setOnClickListener {
             createDialog()
         }
@@ -56,5 +58,13 @@ class MainActivity : AppCompatActivity() {
         alertDialog = builder.create()
         alertDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         alertDialog?.show()
+    }
+
+    override fun onBackPressed() {
+        if (fragmentManager.backStackEntryCount == 1) {
+            finish()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

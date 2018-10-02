@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.phonebuyer.mossinwkung.mobilephonerguild.R
 import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileListResponse
@@ -15,7 +14,7 @@ import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileListResponse
 class MobileListAdapter(private val context: Context, private val items: List<MobileListResponse>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var currentTab: MobileListTab = MobileListTab.LIST
-
+    var mListener: MobileListAdapter.ITileListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (currentTab == MobileListTab.LIST) {
@@ -63,7 +62,7 @@ class MobileListAdapter(private val context: Context, private val items: List<Mo
             }
 
             holder.itemView.setOnClickListener {
-                Toast.makeText(context, "Press item law kab $position", Toast.LENGTH_LONG).show()
+                mListener?.onTileItemClick(item)
             }
         } else if (holder is MobileListFavoriteSectionViewHolder) {
             val item = items[position]
@@ -77,6 +76,10 @@ class MobileListAdapter(private val context: Context, private val items: List<Mo
 
     fun setSelectedTab(tab: MobileListTab) {
         currentTab = tab
+    }
+
+    fun setListener(listener: ITileListener) {
+        this.mListener = listener
     }
 
     class MobileListSectionViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -109,6 +112,11 @@ class MobileListAdapter(private val context: Context, private val items: List<Mo
             itemMobilePrice = view.findViewById(R.id.mobilePrice) as? TextView
             itemMobileRating = view.findViewById(R.id.mobileRating) as? TextView
         }
+    }
+
+    interface ITileListener {
+
+        fun onTileItemClick(item: MobileListResponse)
     }
 
 

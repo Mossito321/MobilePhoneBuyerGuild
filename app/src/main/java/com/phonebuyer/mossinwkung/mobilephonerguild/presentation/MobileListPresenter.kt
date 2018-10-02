@@ -35,10 +35,6 @@ class MobileListPresenter(
         currentTab = tab
     }
 
-    override fun onSelectItem() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onSelectTabMobileList() {
         currentTab = MobileListTab.LIST
         render()
@@ -50,7 +46,16 @@ class MobileListPresenter(
     }
 
     override fun getMobileImageList(mobileId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mobileListUseCase.getMobileImageList(mobileId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    view?.openSeeDetail(it)
+                }, {
+
+                })
+                .addTo(disposeBag)
+
     }
 
     private fun render() {

@@ -8,17 +8,23 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TableRow
+import com.phonebuyer.mossinwkung.mobilephonerguild.MainActivity
 import com.phonebuyer.mossinwkung.mobilephonerguild.R
 import com.phonebuyer.mossinwkung.mobilephonerguild.api.MobileApi
+import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileDetailImageListResponse
 import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileListResponse
 import kotlinx.android.synthetic.main.fragment_mobile_list.*
 
-class MobileListFragment : Fragment(), MobileListContract.View {
+class MobileListFragment : Fragment(), MobileListContract.View, MobileListAdapter.ITileListener {
 
     private var items = mutableListOf<MobileListResponse>()
     private var selectTab: MobileListTab = MobileListTab.LIST
     private var adapter: MobileListAdapter? = null
     private var presenter: MobileListContract.Presenter? = null
+    private var flagListItem: ArrayList<MobileListResponse>? = null
+    private var itemSelect: MobileListResponse? = null
 
     companion object {
         fun newInstance(): MobileListFragment {
@@ -30,7 +36,9 @@ class MobileListFragment : Fragment(), MobileListContract.View {
         super.onCreate(savedInstanceState)
         context?.let {
             adapter = MobileListAdapter(it, items)
+            adapter?.mListener = this
         }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,6 +47,13 @@ class MobileListFragment : Fragment(), MobileListContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var toolbar = activity?.findViewById(R.id.tableRow) as TableRow
+        var backImage = toolbar.findViewById(R.id.action_bar_back) as ImageView
+        var filterImage = toolbar.findViewById(R.id.action_bar_forward) as ImageView
+
+        backImage.visibility = View.GONE
+        filterImage.visibility = View.VISIBLE
+
         val mobileListUseCase = MobileListUseCaseImpl(MobileApi)
 
         presenter = MobileListPresenter(this, mobileListUseCase)
@@ -67,6 +82,7 @@ class MobileListFragment : Fragment(), MobileListContract.View {
     }
 
     override fun renderList(tab: MobileListTab, item: ArrayList<MobileListResponse>) {
+        flagListItem = item
         mobileListRecyclerView.visibility = View.VISIBLE
         errorTextView.visibility = View.GONE
         this.items.clear()
@@ -98,7 +114,13 @@ class MobileListFragment : Fragment(), MobileListContract.View {
         mobileListRecyclerView.visibility = View.GONE
     }
 
-    override fun openSeeDetail() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onTileItemClick(item: MobileListResponse) {
+        presenter?.getMobileImageList((item.itemId).toString())
+        itemSelect = item
+    }
+
+    override fun openSeeDetail(imageList: ArrayList<MobileDetailImageListResponse>) {
+        var mobileDetailFragment = itemSelect?.let { MobileDetailFragment.Companion.newInstance(it, imageList) }
+        mobileDetailFragment?.let { (activity as MainActivity).setupFragment(it) }
     }
 }

@@ -5,7 +5,7 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <TableRow>
+    <TableRow android:id="@+id/tableRow">
 
         <ImageButton
             android:id="@+id/action_bar_back"
