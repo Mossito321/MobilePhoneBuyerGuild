@@ -26,7 +26,7 @@ class MobileListPresenter(
                     listMobileItem = it
                     view?.renderList(currentTab, it)
                 }, {
-
+                    view?.showErrorMessage(it.localizedMessage)
                 })
                 .addTo(disposeBag)
     }
@@ -52,7 +52,7 @@ class MobileListPresenter(
                 .subscribe({
                     view?.openSeeDetail(it)
                 }, {
-
+                    view?.showErrorMessage(it.localizedMessage)
                 })
                 .addTo(disposeBag)
 

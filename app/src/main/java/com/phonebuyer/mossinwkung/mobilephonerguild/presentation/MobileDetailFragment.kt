@@ -9,11 +9,9 @@ import android.widget.ImageView
 import android.widget.TableRow
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.phonebuyer.mossinwkung.mobilephonerguild.MainActivity
 import com.phonebuyer.mossinwkung.mobilephonerguild.R
 import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileDetailImageListResponse
 import com.phonebuyer.mossinwkung.mobilephonerguild.response.MobileListResponse
-import kotlinx.android.synthetic.main.custome_action_bar_layout.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.io.Serializable
 

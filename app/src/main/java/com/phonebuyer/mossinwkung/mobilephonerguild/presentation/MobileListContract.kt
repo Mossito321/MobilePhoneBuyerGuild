@@ -9,6 +9,7 @@ interface MobileListContract {
         fun showLoading()
         fun hideLoading()
         fun showNotItem()
+        fun showErrorMessage(message: String)
         fun openSeeDetail(imageList: ArrayList<MobileDetailImageListResponse>)
     }
 

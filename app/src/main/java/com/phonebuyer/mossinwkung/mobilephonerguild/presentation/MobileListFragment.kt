@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TableRow
+import android.widget.Toast
 import com.phonebuyer.mossinwkung.mobilephonerguild.MainActivity
 import com.phonebuyer.mossinwkung.mobilephonerguild.R
 import com.phonebuyer.mossinwkung.mobilephonerguild.api.MobileApi
@@ -108,6 +109,11 @@ class MobileListFragment : Fragment(), MobileListContract.View, MobileListAdapte
     override fun hideLoading() {
         loader.visibility = View.INVISIBLE
     }
+
+    override fun showErrorMessage(message: String){
+        Toast.makeText(context, "Error Message: ${message}",Toast.LENGTH_LONG).show()
+    }
+
 
     override fun showNotItem() {
         errorTextView.visibility = View.VISIBLE
